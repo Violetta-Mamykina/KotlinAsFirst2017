@@ -60,7 +60,18 @@ fun digitCountInNumber(n: Int, m: Int): Int =
  * Найти количество цифр в заданном числе n.
  * Например, число 1 содержит 1 цифру, 456 -- 3 цифры, 65536 -- 5 цифр.
  */
-fun digitNumber(n: Int): Int = TODO()
+fun digitNumber(n: Int): Int {
+    var module = Math.abs(n)
+    var i = 0
+    if (module == 0){
+        return 1
+    }
+    while (module > 0){
+        i=i+1
+        module = module / 10
+    }
+    return i
+}
 
 /**
  * Простая
@@ -68,7 +79,19 @@ fun digitNumber(n: Int): Int = TODO()
  * Найти число Фибоначчи из ряда 1, 1, 2, 3, 5, 8, 13, 21, ... с номером n.
  * Ряд Фибоначчи определён следующим образом: fib(1) = 1, fib(2) = 1, fib(n+2) = fib(n) + fib(n+1)
  */
-fun fib(n: Int): Int = TODO()
+fun fib(n: Int): Int {
+    var fib1 = 1
+    var fib2 = 1
+    var fibSum = 1
+    var i = 2
+    while (i < n) {
+        fibSum = fib1 + fib2
+        fib1 = fib2
+        fib2 = fibSum
+        i = i+1
+    }
+    return fibSum
+}
 
 /**
  * Простая
@@ -76,7 +99,25 @@ fun fib(n: Int): Int = TODO()
  * Для заданных чисел m и n найти наименьшее общее кратное, то есть,
  * минимальное число k, которое делится и на m и на n без остатка
  */
-fun lcm(m: Int, n: Int): Int = TODO()
+fun lcm(m: Int, n: Int): Int {
+    var numM = m
+    var numN = n
+    var mn = m * n
+    if (numM == numN) {
+        return numM
+    }
+    else {
+        while (numM != numN){
+            if (numM > numN) {
+                numM = numM - numN}
+            else {
+                numN = numN - numM
+            }
+        }
+        return mn / numM
+    }
+
+}
 
 /**
  * Простая
@@ -128,13 +169,22 @@ fun sin(x: Double, eps: Double): Double = TODO()
  */
 fun cos(x: Double, eps: Double): Double = TODO()
 
+
 /**
  * Средняя
  *
  * Поменять порядок цифр заданного числа n на обратный: 13478 -> 87431.
  * Не использовать строки при решении задачи.
  */
-fun revert(n: Int): Int = TODO()
+fun revert(n: Int): Int {
+    var result = 0
+    var change = n
+    while (change > 0){
+        result = result * 10 + change % 10
+        change = change / 10
+    }
+    return result
+}
 
 /**
  * Средняя
@@ -143,7 +193,7 @@ fun revert(n: Int): Int = TODO()
  * первая цифра равна последней, вторая -- предпоследней и так далее.
  * 15751 -- палиндром, 3653 -- нет.
  */
-fun isPalindrome(n: Int): Boolean = TODO()
+fun isPalindrome(n: Int): Boolean = (revert(n) == n)
 
 /**
  * Средняя
@@ -151,7 +201,7 @@ fun isPalindrome(n: Int): Boolean = TODO()
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = TODO()
+fun hasDifferentDigits(n: Int): Boolean = !(digitCountInNumber(n, (n % 10)) == digitNumber(n))
 
 /**
  * Сложная
