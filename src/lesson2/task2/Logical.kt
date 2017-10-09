@@ -19,10 +19,7 @@ fun pointInsideCircle(x: Double, y: Double, x0: Double, y0: Double, r: Double) =
  * Определить, счастливое ли заданное число, вернуть true, если это так.
  */
 fun isNumberHappy(number: Int): Boolean {
-    val sum12 = ((number/1000) + (number/100)%10)
-    val sum34 = (((number/10)%10) + (number%10))
-    return (sum12 == sum34)
-
+    return (((number/1000) + (number/100)%10) == (((number/10)%10) + (number%10)))
 }
 
 /**
@@ -33,9 +30,7 @@ fun isNumberHappy(number: Int): Boolean {
  * Считать, что ферзи не могут загораживать друг друга.
  */
 fun queenThreatens(x1: Int, y1: Int, x2: Int, y2: Int): Boolean {
-    val distanceX = Math.abs(x2-x1)
-    val destanceY = Math.abs(y2-y1)
-    return ((distanceX == destanceY)|| (x1 == x2) || (y1 == y2))
+    return ((Math.abs(x2-x1) == Math.abs(y2-y1)|| (x1 == x2) || (y1 == y2)))
 }
 
 /**
@@ -61,9 +56,8 @@ fun circleInside(x1: Double, y1: Double, r1: Double,
  * Вернуть true, если кирпич пройдёт
  */
 fun brickPasses(a: Int, b: Int, c: Int, r: Int, s: Int): Boolean {
-    return ((b>=a && b>=c) && ((r>=a && s>=c) || (r>=c && s>=a)) || (c>=a && c>=b) && ((r>=b && s>=a) || (r>=a && s>=b))
-            || ((a>=b && a>=c) && (r>=b && s>=c) || (r>=c && s>=b)))
-
+    return ((a <= r && b <= s) || (b <= r && a <= s) || (a <= r && c <= s) ||
+            (c <= r && a <= s) || (b <= r && c <= s) || (c <= r && b <= s))
     }
 
 
