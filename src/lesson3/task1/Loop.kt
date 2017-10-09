@@ -102,22 +102,17 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     var numM = m
     var numN = n
-    var mn = m * n
-    if (numM == numN) {
-        return numM
-    }
-    else {
         while (numM != numN){
             if (numM > numN) {
-                numM = numM - numN}
-            else {
+                numM = numM - numN
+            } else {
                 numN = numN - numM
             }
         }
-        return mn / numM
+        return (m / numM) * n
     }
 
-}
+
 
 /**
  * Простая
