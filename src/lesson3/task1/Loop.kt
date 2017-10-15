@@ -102,15 +102,15 @@ fun fib(n: Int): Int {
 fun lcm(m: Int, n: Int): Int {
     var numM = m
     var numN = n
-        while (numM != numN){
-            if (numM > numN) {
-                numM = numM - numN
-            } else {
-                numN = numN - numM
-            }
+    while (numM != numN){
+        if (numM > numN) {
+            numM = numM - numN
+        } else {
+            numN = numN - numM
         }
-        return (m / numM) * n
     }
+    return (m / numM) * n
+}
 
 
 
@@ -196,7 +196,7 @@ fun isPalindrome(n: Int): Boolean = (revert(n) == n)
  * Для заданного числа n определить, содержит ли оно различающиеся цифры.
  * Например, 54 и 323 состоят из разных цифр, а 111 и 0 из одинаковых.
  */
-fun hasDifferentDigits(n: Int): Boolean = (digitCountInNumber(n, (n % 10)) != digitNumber(n))
+fun hasDifferentDigits(n: Int): Boolean = digitCountInNumber(n, (n % 10)) != digitNumber(n)
 
 /**
  * Сложная
