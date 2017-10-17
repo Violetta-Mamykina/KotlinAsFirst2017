@@ -109,7 +109,7 @@ fun lcm(m: Int, n: Int): Int {
             numN %= numM
         }
     }
-    return m * n / (numN + numM)
+    return m / (numN + numM) * n
 }
 
 /**
