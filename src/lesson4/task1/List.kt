@@ -222,7 +222,16 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString (separator = "
  * Результат перевода вернуть в виде списка цифр в base-ичной системе от старшей к младшей,
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
-fun convert(n: Int, base: Int): List<Int> = TODO()
+fun convert(n: Int, base: Int): List<Int> {
+    var numN = n
+    var list = listOf<Int>()
+    if (numN == 0) return listOf(0)
+    while (numN > 0){
+        list += numN % base
+        numN /= base
+    }
+    return list.reversed()
+}
 
 /**
  * Сложная
@@ -241,7 +250,15 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
-fun decimal(digits: List<Int>, base: Int): Int = TODO()
+fun decimal(digits: List<Int>, base: Int): Int {
+    var result = 0.0
+    val size = (digits.size - 1).toDouble()
+    val baseDouble = base.toDouble()
+    for (i in size.toInt() downTo 0){
+        result += (digits[i] * Math.pow(baseDouble, (size - i)))
+    }
+    return result.toInt()
+}
 
 /**
  * Сложная
@@ -262,7 +279,21 @@ fun decimalFromString(str: String, base: Int): Int = TODO()
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun roman(n: Int): String = TODO()
+fun roman(n: Int): String {
+    val rimNum = listOf("I", "IV", "V", "IX", "X", "XL", "L", "XC", "C", "CD", "D", "CM", "M")
+    val arabNum = listOf(1, 4, 5, 9, 10, 40, 50, 90, 100, 400, 500, 900, 1000)
+    var numN = n
+    var i = 12
+    var result = ""
+    while (numN > 0){
+        while (numN >= arabNum[i]){
+            numN -= arabNum[i]
+            result += rimNum[i]
+        }
+        i--
+    }
+    return result
+}
 
 /**
  * Очень сложная
