@@ -66,7 +66,38 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateStrToDigit(str: String): String = TODO()
+fun dateStrToDigit(str: String): String {
+    val cStr = str.split(" ")
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
+            "октября", "ноября", "декабря")
+    val day: String
+    val year: String
+    var month = ""
+    try{
+        if (cStr.size == 3) {
+            if ((cStr[0].toInt() in 1..31) && (cStr[2].toInt() in Int.MIN_VALUE .. Int.MAX_VALUE)){
+                day = cStr[0]
+                year = cStr[2]
+                for (i in 0..11){
+                    if (cStr[1] == months[i]){
+                        month = (i + 1).toString()
+                        break
+                    } else {
+                        if (i == 11) return ""
+                    }
+                }
+
+
+
+            } else return ""
+        } else return ""
+    } catch (e: NumberFormatException){
+        return ""
+    }
+    return String.format("%02d.%02d.%d", day.toInt(), month.toInt(), year.toInt())
+
+
+}
 
 /**
  * Средняя
@@ -75,7 +106,30 @@ fun dateStrToDigit(str: String): String = TODO()
  * Перевести её в строковый формат вида "15 июля 2016".
  * При неверном формате входной строки вернуть пустую строку
  */
-fun dateDigitToStr(digital: String): String = TODO()
+fun dateDigitToStr(digital: String): String {
+    val cDigital = digital.split(".")
+    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
+            "октября", "ноября", "декабря")
+    var day: String
+    val month: String
+    val year: String
+    try {
+        if (cDigital.size == 3){
+            day = cDigital[0]
+            if (day.toInt() in 1..9){
+                day = day[1].toString()
+            }
+            if ((day.toInt() in 1..31) && (cDigital[1].toInt() in 1..12)){
+                year = cDigital[2]
+                month = months[cDigital[1].toInt() - 1]
+                } else return ""
+            }else return ""
+        } catch (e: NumberFormatException){
+        return ""
+    }
+    return String.format("%s %s %s", day, month, year)
+
+}
 
 /**
  * Средняя
