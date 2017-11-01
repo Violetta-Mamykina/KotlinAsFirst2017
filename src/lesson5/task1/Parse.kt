@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson5.task1
 
 /**
@@ -48,12 +49,10 @@ fun main(args: Array<String>) {
         val seconds = timeStrToSeconds(line)
         if (seconds == -1) {
             println("Введённая строка $line не соответствует формату ЧЧ:ММ:СС")
-        }
-        else {
+        } else {
             println("Прошло секунд с начала суток: $seconds")
         }
-    }
-    else {
+    } else {
         println("Достигнут <конец файла> в процессе чтения строки. Программа прервана")
     }
 }
@@ -66,36 +65,26 @@ fun main(args: Array<String>) {
  * День и месяц всегда представлять двумя цифрами, например: 03.04.2011.
  * При неверном формате входной строки вернуть пустую строку
  */
+val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
+        "октября", "ноября", "декабря")
+
 fun dateStrToDigit(str: String): String {
-    val cStr = str.split(" ")
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
-            "октября", "ноября", "декабря")
-    val day: String
-    val year: String
-    var month = ""
-    try{
-        if (cStr.size == 3) {
-            if ((cStr[0].toInt() in 1..31) && (cStr[2].toInt() in Int.MIN_VALUE .. Int.MAX_VALUE)){
-                day = cStr[0]
-                year = cStr[2]
-                for (i in 0..11){
-                    if (cStr[1] == months[i]){
-                        month = (i + 1).toString()
-                        break
-                    } else {
-                        if (i == 11) return ""
-                    }
+    val part = str.split(" ")
+    try {
+        if (part.size == 3) {
+            if (part[0].toInt() in 1..31) {
+                val day = part[0]
+                val month = months.indexOf(part[1]) + 1
+                if (month == 0){
+                    return ""
                 }
-
-
-
+                val year = part[2]
+                return String.format("%02d.%02d.%d", day.toInt(), month.toInt(), year.toInt())
             } else return ""
         } else return ""
-    } catch (e: NumberFormatException){
+    } catch (e: NumberFormatException) {
         return ""
     }
-    return String.format("%02d.%02d.%d", day.toInt(), month.toInt(), year.toInt())
-
 
 }
 
@@ -107,24 +96,22 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    val cDigital = digital.split(".")
-    val months = listOf("января", "февраля", "марта", "апреля", "мая", "июня", "июля", "августа", "сентября",
-            "октября", "ноября", "декабря")
+    val part = digital.split(".")
     var day: String
     val month: String
     val year: String
     try {
-        if (cDigital.size == 3){
-            day = cDigital[0]
-            if (day.toInt() in 1..9){
+        if (part.size == 3) {
+            day = part[0]
+            if (day.toInt() in 1..9) {
                 day = day[1].toString()
             }
-            if ((day.toInt() in 1..31) && (cDigital[1].toInt() in 1..12)){
-                year = cDigital[2]
-                month = months[cDigital[1].toInt() - 1]
-                } else return ""
-            }else return ""
-        } catch (e: NumberFormatException){
+            if ((day.toInt() in 1..31) && (part[1].toInt() in 1..12)) {
+                year = part[2]
+                month = months[part[1].toInt() - 1]
+            } else return ""
+        } else return ""
+    } catch (e: NumberFormatException) {
         return ""
     }
     return String.format("%s %s %s", day, month, year)
@@ -149,12 +136,13 @@ fun flattenPhoneNumber(phone: String): String {
     if (phone.indexOf('+') != -1) {
         result = "+"
     }
-    for (i in 0 until phone.length){
-        if ((phone[i] !in symbols) && (phone[i] !in '0'..'9')) {
-            return ""
+    for (element in phone) {
+
+        if (element in '0'..'9'){
+            result += element.toString()
         }
-        if (phone[i] in '0'..'9') {
-            result += phone[i].toString()
+        else if (element !in symbols){
+            return ""
         }
     }
     if (result.length in 0..1) {

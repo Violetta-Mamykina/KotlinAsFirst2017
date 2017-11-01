@@ -250,14 +250,14 @@ fun convertToString(n: Int, base: Int): String = TODO()
  * из системы счисления с основанием base в десятичную.
  * Например: digits = (1, 3, 12), base = 14 -> 250
  */
+fun powInt (x: Int, y: Int) = Math.pow(x.toDouble(), y.toDouble()).toInt()
 fun decimal(digits: List<Int>, base: Int): Int {
-    var result = 0.0
-    val size = (digits.size - 1).toDouble()
-    val baseDouble = base.toDouble()
+    var result = 0
+    val size = (digits.size - 1)
     for (i in size.toInt() downTo 0){
-        result += (digits[i] * Math.pow(baseDouble, (size - i)))
+        result += (digits[i] * powInt(base, (size - i).toInt()))
     }
-    return result.toInt()
+    return result
 }
 
 /**
