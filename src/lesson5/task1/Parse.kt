@@ -190,6 +190,7 @@ fun bestHighJump(jumps: String): Int = TODO()
 fun plusMinus(expression: String): Int{
     val expressionTrue = expression.matches(Regex("""[\s\d+-]+"""))
     if (!expressionTrue) throw IllegalArgumentException("Error.format")
+    if (expression.matches(Regex("""\d+"""))) return expression.toInt()
     val parts = Regex ("""\s+""").replace(expression, " ").split(" ")
     var result = 0
     var i = 0
@@ -199,13 +200,10 @@ fun plusMinus(expression: String): Int{
         }
         val operator = parts[i + 1]
         val number = parts[i + 2]
-        if (operator == "+"){
-            result += number.toInt()
-        }
-        else if (operator == "-"){
-            result -= number.toInt()
-        }
-        else throw IllegalArgumentException ("Error.operator")
+        when (operator) {
+            "+" -> result += number.toInt()
+            "-" -> result -= number.toInt()
+            else -> throw IllegalArgumentException ("Error.operator")}
         i += 2
     }
     return result
