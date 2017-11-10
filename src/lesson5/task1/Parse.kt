@@ -2,6 +2,8 @@
 
 package lesson5.task1
 
+import lesson4.task1.squares
+
 /**
  * Пример
  *
@@ -69,16 +71,16 @@ val months = listOf("января", "февраля", "марта", "апрел�
         "октября", "ноября", "декабря")
 
 fun dateStrToDigit(str: String): String {
-    val part = str.split(" ")
+    val parts = str.split(" ")
     try {
-        if (part.size == 3) {
-            if (part[0].toInt() in 1..31) {
-                val day = part[0]
-                val month = months.indexOf(part[1]) + 1
+        if (parts.size == 3) {
+            if (parts[0].toInt() in 1..31) {
+                val day = parts[0]
+                val month = months.indexOf(parts[1]) + 1
                 if (month == 0){
                     return ""
                 }
-                val year = part[2]
+                val year = parts[2]
                 return String.format("%02d.%02d.%d", day.toInt(), month.toInt(), year.toInt())
             } else return ""
         } else return ""
@@ -96,19 +98,19 @@ fun dateStrToDigit(str: String): String {
  * При неверном формате входной строки вернуть пустую строку
  */
 fun dateDigitToStr(digital: String): String {
-    val part = digital.split(".")
+    val parts = digital.split(".")
     var day: String
     val month: String
     val year: String
     try {
-        if (part.size == 3) {
-            day = part[0]
+        if (parts.size == 3) {
+            day = parts[0]
             if (day.toInt() in 1..9) {
                 day = day[1].toString()
             }
-            if ((day.toInt() in 1..31) && (part[1].toInt() in 1..12)) {
-                year = part[2]
-                month = months[part[1].toInt() - 1]
+            if ((day.toInt() in 1..31) && (parts[1].toInt() in 1..12)) {
+                year = parts[2]
+                month = months[parts[1].toInt() - 1]
             } else return ""
         } else return ""
     } catch (e: NumberFormatException) {
@@ -185,7 +187,29 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int{
+    val expressionTrue = expression.matches(Regex("""[\s\d+-]+"""))
+    if (!expressionTrue) throw IllegalArgumentException("Error.format")
+    val parts = Regex ("""\s+""").replace(expression, " ").split(" ")
+    var result = 0
+    var i = 0
+    while (i < parts.size - 2){
+        if (i == 0){
+            result = parts[0].toInt()
+        }
+        val operator = parts[i + 1]
+        val number = parts[i + 2]
+        if (operator == "+"){
+            result += number.toInt()
+        }
+        else if (operator == "-"){
+            result -= number.toInt()
+        }
+        else throw IllegalArgumentException ("Error.operator")
+        i += 2
+    }
+    return result
+}
 
 /**
  * Сложная
@@ -196,7 +220,29 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun indexOfWord(index: Int, str: String): Int{
+   var newWord = 0
+    for (j in 0 until str.length){
+        if (str[j] == ' '){
+            newWord++
+            if (newWord == index){
+                return j + 1
+            }
+        }
+
+    }
+    return -1
+}
+fun firstDuplicateIndex(str: String): Int {
+    var index = 0
+    val parts = str.toLowerCase().split(" ")
+    for (i in 0 until parts.size - 1) {
+        if (parts[i] == parts[i + 1]) {
+            return indexOfWord(i, str)
+        }
+    }
+   return -1
+}
 
 /**
  * Сложная
