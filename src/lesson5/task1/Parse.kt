@@ -73,17 +73,15 @@ val months = listOf("января", "февраля", "марта", "апрел�
 fun dateStrToDigit(str: String): String {
     val parts = str.split(" ")
     try {
-        if (parts.size == 3) {
-            if (parts[0].toInt() in 1..31) {
+        if ((parts.size == 3) && (parts[0].toInt() in 1..31)) {
                 val day = parts[0]
                 val month = months.indexOf(parts[1]) + 1
-                if (month == 0){
+            if (month !in 1..12) {
                     return ""
                 }
                 val year = parts[2]
                 return String.format("%02d.%02d.%d", day.toInt(), month.toInt(), year.toInt())
             } else return ""
-        } else return ""
     } catch (e: NumberFormatException) {
         return ""
     }
@@ -108,9 +106,10 @@ fun dateDigitToStr(digital: String): String {
             if (day.toInt() in 1..9) {
                 day = day[1].toString()
             }
-            if ((day.toInt() in 1..31) && (parts[1].toInt() in 1..12)) {
+            val monthOfpart = parts[1].toInt()
+            if ((day.toInt() in 1..31) && (monthOfpart in 1..12)) {
                 year = parts[2]
-                month = months[parts[1].toInt() - 1]
+                month = months[monthOfpart - 1]
             } else return ""
         } else return ""
     } catch (e: NumberFormatException) {
@@ -135,15 +134,13 @@ fun dateDigitToStr(digital: String): String {
 fun flattenPhoneNumber(phone: String): String {
     var result = ""
     val symbols = listOf('+', ' ', '(', ')', '-')
-    if (phone.indexOf('+') != -1) {
+    if (phone.first() == '+') {
         result = "+"
     }
     for (element in phone) {
-
-        if (element in '0'..'9'){
+        if (element in '0'..'9') {
             result += element.toString()
-        }
-        else if (element !in symbols){
+        } else if (element !in symbols) {
             return ""
         }
     }
@@ -183,24 +180,19 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int{
-    val expressionTrue = expression.matches(Regex("""[\d\s-+]+"""))
-    if (!expressionTrue) throw IllegalArgumentException("Error.format")
+fun plusMinus(expression: String): Int {
+    if (!expression.matches(Regex("""[\d\s-+]+"""))) throw IllegalArgumentException("Error.format")
     if (expression.matches(Regex("""\d+"""))) return expression.toInt()
-    val parts = Regex ("""\s+""").replace(expression, " ").split(" ")
-    var result = 0
-    var i = 0
-    while (i < parts.size - 2){
-        if (i == 0){
-            result = parts[0].toInt()
-        }
+    val parts = Regex("""\s+""").replace(expression, " ").split(" ")
+    var result = parts[0].toInt()
+    for (i in 0..parts.size - 2 step 2) {
         val operator = parts[i + 1]
         val number = parts[i + 2]
         when (operator) {
             "+" -> result += number.toInt()
             "-" -> result -= number.toInt()
-            else -> throw IllegalArgumentException ("Error.operator")}
-        i += 2
+            else -> throw IllegalArgumentException("Error.operator")
+        }
     }
     return result
 }
@@ -214,12 +206,12 @@ fun plusMinus(expression: String): Int{
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun indexOfWord(index: Int, str: String): Int{
-   var newWord = 0
-    for (j in 0 until str.length){
-        if (str[j] == ' '){
+fun indexOfWord(index: Int, str: String): Int {
+    var newWord = 0
+    for (j in 0 until str.length) {
+        if (str[j] == ' ') {
             newWord++
-            if (newWord == index){
+            if (newWord == index) {
                 return j + 1
             }
         }
@@ -227,6 +219,7 @@ fun indexOfWord(index: Int, str: String): Int{
     }
     return -1
 }
+
 fun firstDuplicateIndex(str: String): Int {
     var index = 0
     val parts = str.toLowerCase().split(" ")
@@ -235,7 +228,7 @@ fun firstDuplicateIndex(str: String): Int {
             return indexOfWord(i, str)
         }
     }
-   return -1
+    return -1
 }
 
 /**
@@ -256,13 +249,14 @@ fun mostExpensive(description: String): String {
     try {
         for (i in 0 until parts.size) {
             val partsOfparts = parts[i].trim().split(" ")
-            if (partsOfparts[1].toDouble() >= max) {
-                max = partsOfparts[1].toDouble()
+            val price = partsOfparts[1].toDouble()
+            if (price >= max) {
+                max = price
                 result = partsOfparts[0]
             }
         }
         return result
-    }catch (e: IndexOutOfBoundsException){
+    } catch (e: IndexOutOfBoundsException) {
         return ""
     }
 

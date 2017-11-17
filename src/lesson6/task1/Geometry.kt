@@ -1,4 +1,5 @@
 @file:Suppress("UNUSED_PARAMETER")
+
 package lesson6.task1
 
 import lesson1.task1.sqr
@@ -29,7 +30,8 @@ class Triangle private constructor(private val points: Set<Point>) {
 
     val c: Point get() = pointList[2]
 
-    constructor(a: Point, b: Point, c: Point): this(linkedSetOf(a, b, c))
+    constructor(a: Point, b: Point, c: Point) : this(linkedSetOf(a, b, c))
+
     /**
      * Пример: полупериметр
      */
@@ -73,9 +75,9 @@ data class Circle(val center: Point, val radius: Double) {
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
     fun distance(other: Circle): Double {
-        var result = 0.0
-        if (other.center.distance(center) > other.radius + radius) {
-            result = other.center.distance(center) - other.radius - radius
+        var result = other.center.distance(center) - other.radius - radius
+        if (result < 0) {
+            result = 0.0
         }
         return result
     }
@@ -109,7 +111,7 @@ data class Segment(val begin: Point, val end: Point) {
 fun diameter(vararg points: Point): Segment {
     var max = -1.0
     var maxPoint = Pair(0, 0)
-    if (points.size < 2){
+    if (points.size < 2) {
         throw IllegalArgumentException("Error")
     }
     for (i in 0 until points.size) {
@@ -142,7 +144,7 @@ class Line private constructor(val b: Double, val angle: Double) {
         assert(angle >= 0 && angle < Math.PI) { "Incorrect line angle: $angle" }
     }
 
-    constructor(point: Point, angle: Double): this(point.y * Math.cos(angle) - point.x * Math.sin(angle), angle)
+    constructor(point: Point, angle: Double) : this(point.y * Math.cos(angle) - point.x * Math.sin(angle), angle)
 
     /**
      * Средняя
