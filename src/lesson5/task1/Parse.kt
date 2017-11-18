@@ -76,16 +76,13 @@ fun dateStrToDigit(str: String): String {
         if ((parts.size == 3) && (parts[0].toInt() in 1..31)) {
             val day = parts[0]
             val month = months.indexOf(parts[1]) + 1
-            if (month !in 1..12) {
-                return ""
-            }
+            if (month !in 1..12) return ""
             val year = parts[2]
             return String.format("%02d.%02d.%d", day.toInt(), month.toInt(), year.toInt())
         } else return ""
     } catch (e: NumberFormatException) {
         return ""
     }
-
 }
 
 /**
@@ -132,20 +129,17 @@ fun dateDigitToStr(digital: String): String {
  * При неверном формате вернуть пустую строку
  */
 fun flattenPhoneNumber(phone: String): String {
-    if (phone == "") return ""
-    var result = ""
+    if (phone.isEmpty()) return ""
+    var result = StringBuilder()
     val symbols = listOf('+', ' ', '(', ')', '-')
-    if (phone.first() == '+') {
-        result = "+"
-    }
+    if (phone.first() == '+') result.append('+')
     for (element in phone) {
         if (element in '0'..'9') {
-            result += element.toString()
-        } else if (element !in symbols) {
-            return ""
-        }
+            result.append(element)
+        } else if (element !in symbols) return ""
     }
-    return result
+    if (result.toString() == "+") return ""
+    return result.toString()
 }
 
 /**
