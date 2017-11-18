@@ -2,6 +2,7 @@
 
 package lesson6.task1
 
+import lesson1.task1.angleInRadian
 import lesson1.task1.sqr
 
 /**
@@ -170,21 +171,42 @@ class Line private constructor(val b: Double, val angle: Double) {
  *
  * Построить прямую по отрезку
  */
-fun lineBySegment(s: Segment): Line = TODO()
+fun lineBySegment(s: Segment): Line {
+    var angle = Math.atan2((s.end.y - s.begin.y), (s.end.x - s.begin.x))
+    if (angle > 0) {
+        angle -= Math.PI
+    }
+    if (angle < 0) {
+        angle += Math.PI
+    }
+    return Line(s.begin, angle)
+}
+
 
 /**
  * Средняя
  *
  * Построить прямую по двум точкам
  */
-fun lineByPoints(a: Point, b: Point): Line = TODO()
+fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
+
 
 /**
  * Сложная
  *
  * Построить серединный перпендикуляр по отрезку или по двум точкам
  */
-fun bisectorByPoints(a: Point, b: Point): Line = TODO()
+fun bisectorByPoints(a: Point, b: Point): Line {
+    val middle = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
+    var perpendicular = 0.0
+    if (lineByPoints(a, b).angle + Math.PI / 2 >= Math.PI) {
+        perpendicular = lineByPoints(a, b).angle - Math.PI / 2
+    } else {
+        perpendicular = lineByPoints(a, b).angle + Math.PI / 2
+    }
+    return Line(middle, perpendicular)
+
+}
 
 /**
  * Средняя
