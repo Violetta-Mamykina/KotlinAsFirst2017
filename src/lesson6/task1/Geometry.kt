@@ -173,7 +173,7 @@ class Line private constructor(val b: Double, val angle: Double) {
  */
 fun lineBySegment(s: Segment): Line {
     var angle = Math.atan2((s.end.y - s.begin.y), (s.end.x - s.begin.x))
-    if (angle > 0) {
+    if (angle > Math.PI) {
         angle -= Math.PI
     }
     if (angle < 0) {
@@ -199,13 +199,10 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
 fun bisectorByPoints(a: Point, b: Point): Line {
     val middle = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
     var perpendicular = 0.0
-    if (lineByPoints(a, b).angle + Math.PI / 2 >= Math.PI) {
-        perpendicular = lineByPoints(a, b).angle - Math.PI / 2
-    } else {
-        perpendicular = lineByPoints(a, b).angle + Math.PI / 2
+    when (lineByPoints(a, b).angle + Math.PI / 2 >= Math.PI) {
+        true -> perpendicular = return Line(middle, lineByPoints(a, b).angle - Math.PI / 2)
+        false -> perpendicular = return Line(middle, lineByPoints(a, b).angle + Math.PI / 2)
     }
-    return Line(middle, perpendicular)
-
 }
 
 /**

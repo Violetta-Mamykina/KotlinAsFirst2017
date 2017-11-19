@@ -131,12 +131,12 @@ fun dateDigitToStr(digital: String): String {
 fun flattenPhoneNumber(phone: String): String {
     if (phone.isEmpty()) return ""
     var result = StringBuilder()
-    val symbols = listOf('+', ' ', '(', ')', '-')
+    val symbols = listOf(' ', '(', ')', '-')
     if (phone.first() == '+') result.append('+')
     for (element in phone) {
         if (element in '0'..'9') {
             result.append(element)
-        } else if (element !in symbols) return ""
+        } else if (element !in symbols && result.toString() != "+") return ""
     }
     if (result.toString() == "+") return ""
     return result.toString()
@@ -240,21 +240,24 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     var max = 0.0
     var result = ""
-    val parts = description.split(";")
     try {
-        for (i in 0 until parts.size) {
-            val partsOfparts = parts[i].trim().split(" ")
-            val price = partsOfparts[1].toDouble()
-            if (price >= max) {
-                max = price
-                result = partsOfparts[0]
+        val parts = description.split(";")
+        try {
+            for (i in 0 until parts.size) {
+                val partsOfparts = parts[i].trim().split(" ")
+                val price = partsOfparts[1].toDouble()
+                if (price >= max) {
+                    max = price
+                    result = partsOfparts[0]
+                }
             }
+            return result
+        } catch (e: IndexOutOfBoundsException) {
+            return ""
         }
-        return result
-    } catch (e: IndexOutOfBoundsException) {
+    } catch (e: NumberFormatException) {
         return ""
     }
-
 }
 
 /**
