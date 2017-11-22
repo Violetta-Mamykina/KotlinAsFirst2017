@@ -176,8 +176,8 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    if (!expression.matches(Regex("""[\d\s-+]+"""))) throw IllegalArgumentException("Error.format")
     if (expression.matches(Regex("""\d+"""))) return expression.toInt()
+    if (!expression.matches(Regex("""(?:\d+\s[-+]\s)+\d+"""))) throw IllegalArgumentException("Error.format")
     val parts = Regex("""\s+""").replace(expression, " ").split(" ")
     var result = parts[0].toInt()
     for (i in 0..parts.size - 2 step 2) {
@@ -229,7 +229,6 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     var max = 0.0
     var result = ""
-    try {
         val parts = description.split(";")
         try {
             for (i in 0 until parts.size) {
@@ -243,11 +242,11 @@ fun mostExpensive(description: String): String {
             return result
         } catch (e: IndexOutOfBoundsException) {
             return ""
+        } catch (e: NumberFormatException) {
+            return ""
         }
-    } catch (e: NumberFormatException) {
-        return ""
     }
-}
+
 
 /**
  * Сложная
