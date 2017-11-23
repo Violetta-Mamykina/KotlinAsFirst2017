@@ -156,22 +156,19 @@ class Line private constructor(val b: Double, val angle: Double) {
     fun crossPoint(other: Line): Point {
         var x = 0.0
         var y = 0.0
-        when {
-            angle == Math.PI / 2 -> {
+        if (angle in Math.PI / 2 - 0.00001..Math.PI / 2 + 0.00001) {
                 y = -b * Math.tan(other.angle) + other.b / Math.cos(other.angle)
                 return Point(-b, y)
             }
-            other.angle == Math.PI / 2 -> {
+        if (other.angle in Math.PI / 2 - 0.00001..Math.PI / 2 + 0.00001) {
                 y = -b * Math.tan(angle) + b / Math.cos(angle)
                 return Point(-other.b, y)
-            }
-            else -> {
+            } else {
                 x = (other.b / Math.cos(other.angle) - b / Math.cos(angle)) / (Math.tan(angle) - Math.tan(other.angle))
                 y = x * Math.tan(angle) + b / Math.cos(angle)
                 return Point(x, y)
             }
         }
-    }
 
     override fun equals(other: Any?) = other is Line && angle == other.angle && b == other.b
 
@@ -216,11 +213,8 @@ fun lineByPoints(a: Point, b: Point): Line = lineBySegment(Segment(a, b))
  */
 fun bisectorByPoints(a: Point, b: Point): Line {
     val middle = Point((a.x + b.x) / 2, (a.y + b.y) / 2)
-    var perpendicular = 0.0
-    when (lineByPoints(a, b).angle + Math.PI / 2 >= Math.PI) {
-        true -> perpendicular = return Line(middle, lineByPoints(a, b).angle - Math.PI / 2)
-        false -> perpendicular = return Line(middle, lineByPoints(a, b).angle + Math.PI / 2)
-    }
+    if (lineByPoints(a, b).angle + Math.PI / 2 >= Math.PI) return Line(middle, lineByPoints(a, b).angle - Math.PI / 2)
+    else return Line(middle, lineByPoints(a, b).angle + Math.PI / 2)
 }
 
 /**

@@ -302,4 +302,42 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun russian(n: Int): String = TODO()
+fun russian(n: Int): String {
+    val thousand = listOf<String>("тысяч ", "тысяча ", "тысячи ")
+    val one1 = listOf<String>("", "один ", "два ", "три ", "четыре ", "пять ", "шесть ", "семь ", "восемь ", "девять ")
+    val one2 = listOf<String>("", "одна ", "две ", "три ", "четыре ", "пять ",
+            "шесть ", "семь ", "восемь ", "девять ")
+    val ten = listOf<String>("", "десять ", "двадцать ", "тридцать ", "сорок ", "пятьдесят ", "шестьдесят ", "семьдесят ",
+            "восемьдесят ", "девяносто ")
+    val tenNineteen = listOf<String>("десять ", "одиннадцать ", "двенадцать ", "тринадцать ", "четырнадцать ", "пятнадцать ",
+            "шестнадцать ", "семнадцать ", "восемнадцать ", "девятнадцать ")
+    val handred = listOf<String>("", "сто ", "двести ", "триста ", "четыреста ", "пятьсот ", "шестьсот ", "семьсот ",
+            "восемьсот ", "девятьсот ")
+    var result = StringBuilder()
+    val digit1 = n % 10
+    val digit2 = n / 10 % 10
+    val digit3 = n / 100 % 10
+    val digit4 = n / 1000 % 10
+    val digit5 = n / 10000 % 10
+    val digit6 = n / 100000 % 10
+    if (digit6 != 0) result.append(handred[digit6])
+    if (digit5 != 0) {
+        if (digit5 == 1) result.append(tenNineteen[digit4])
+        else {
+            result.append(ten[digit5])
+            if (digit4 != 0) result.append(one2[digit4])
+        }
+    }
+    if (digit5 == 0 && digit4 != 0) result.append(one2[digit4])
+
+    if (digit4 != 0 || digit5 != 0 || digit6 != 0) {
+        if (digit5 != 1 && digit4 == 1) result.append(thousand[1])
+        else if (digit4 in 1..4 && digit5 != 1) result.append(thousand[2])
+        else result.append(thousand[0])
+    }
+    if (digit3 != 0) result.append(handred[digit3])
+    if (digit2 != 0 && digit2 == 1) result.append(tenNineteen[digit1])
+    else result.append(ten[digit2])
+    if (digit1 != 0 && digit2 != 1) result.append(one1[digit1])
+    return result.toString().trim()
+}
