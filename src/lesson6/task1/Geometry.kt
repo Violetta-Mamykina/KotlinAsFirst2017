@@ -157,18 +157,19 @@ class Line private constructor(val b: Double, val angle: Double) {
         var x = 0.0
         var y = 0.0
         if (angle in Math.PI / 2 - 0.00001..Math.PI / 2 + 0.00001) {
-                y = -b * Math.tan(other.angle) + other.b / Math.cos(other.angle)
-                return Point(-b, y)
-            }
-        if (other.angle in Math.PI / 2 - 0.00001..Math.PI / 2 + 0.00001) {
-                y = -b * Math.tan(angle) + b / Math.cos(angle)
-                return Point(-other.b, y)
-            } else {
-                x = (other.b / Math.cos(other.angle) - b / Math.cos(angle)) / (Math.tan(angle) - Math.tan(other.angle))
-                y = x * Math.tan(angle) + b / Math.cos(angle)
-                return Point(x, y)
-            }
+            y = -b * Math.sin(other.angle) / Math.cos(other.angle) + other.b / Math.cos(other.angle)
+            return Point(-b, y)
         }
+        if (other.angle in Math.PI / 2 - 0.00001..Math.PI / 2 + 0.00001) {
+            y = -other.b * Math.sin(angle) / Math.cos(angle) + b / Math.cos(angle)
+            return Point(-other.b, y)
+        } else {
+            x = (other.b / Math.cos(other.angle) - b / Math.cos(angle)) / (Math.sin(angle) / Math.cos(angle)
+                    - Math.sin(other.angle) / Math.cos(other.angle))
+            y = x * Math.sin(angle) / Math.cos(angle) + b / Math.cos(angle)
+            return Point(x, y)
+        }
+    }
 
     override fun equals(other: Any?) = other is Line && angle == other.angle && b == other.b
 
