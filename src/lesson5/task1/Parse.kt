@@ -229,23 +229,23 @@ fun firstDuplicateIndex(str: String): Int {
 fun mostExpensive(description: String): String {
     var max = 0.0
     var result = ""
-        val parts = description.split(";")
-        try {
-            for (i in 0 until parts.size) {
-                val partsOfparts = parts[i].trim().split(" ")
-                val price = partsOfparts[1].toDouble()
-                if (price >= max) {
-                    max = price
-                    result = partsOfparts[0]
-                }
+    val parts = description.split(";")
+    try {
+        for (i in 0 until parts.size) {
+            val partsOfparts = parts[i].trim().split(" ")
+            val price = partsOfparts[1].toDouble()
+            if (price >= max) {
+                max = price
+                result = partsOfparts[0]
             }
-            return result
-        } catch (e: IndexOutOfBoundsException) {
-            return ""
-        } catch (e: NumberFormatException) {
-            return ""
         }
+        return result
+    } catch (e: IndexOutOfBoundsException) {
+        return ""
+    } catch (e: NumberFormatException) {
+        return ""
     }
+}
 
 
 /**
