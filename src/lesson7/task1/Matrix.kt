@@ -49,6 +49,7 @@ fun <E> createMatrix(height: Int, width: Int, e: E): Matrix<E> {
  * Реализация интерфейса "матрица"
  */
 class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : Matrix<E> {
+
     private val list = mutableListOf<E>()
 
     init {
@@ -56,6 +57,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
             list.add(e)
         }
     }
+
 
     override fun get(row: Int, column: Int): E = list[width * row + column]
 
@@ -71,27 +73,34 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
 
     override fun equals(other: Any?): Boolean {
         if ((other is MatrixImpl<*> && height == other.height && width == other.width)) {
-            for (i in 0..height) {
-                for (j in 0..width) {
-                    if (other[i, j] == this[i, j]) {
-                        return true
+            for (i in 0..height - 1) {
+                for (j in 0..width - 1) {
+                    if (other[i, j] != this[i, j]) {
+                        return false
                     }
                 }
             }
-            return false
+            return true
         }
         return false
     }
 
     override fun toString(): String {
         val result = StringBuilder()
-        for (i in 0..height) {
-            for (j in 0..width) {
+        for (i in 0..height - 1) {
+            for (j in 0..width - 1) {
                 result.append(this[i, j])
             }
             result.append("\t")
         }
         return "$result"
+    }
+
+    override fun hashCode(): Int {
+        var result = height
+        result = 31 * result + width
+        result = 31 * result + list.hashCode()
+        return result
     }
 }
 
