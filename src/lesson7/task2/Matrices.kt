@@ -2,6 +2,7 @@
 
 package lesson7.task2
 
+import lesson3.task1.factorial
 import lesson7.task1.Matrix
 import lesson7.task1.MatrixImpl
 import lesson7.task1.createMatrix
@@ -159,7 +160,24 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
  * 1 2 3
  * 3 1 2
  */
-fun isLatinSquare(matrix: Matrix<Int>): Boolean = TODO()
+fun isLatinSquare(matrix: Matrix<Int>): Boolean {
+    if (matrix.height != matrix.width) return false
+    var row = 0
+    var column = 0
+    val factorial = if (matrix.width == 2) factorial(matrix.width).toInt() + 1
+    else factorial(matrix.width).toInt()
+    for (i in 0..matrix.height - 1) {
+        for (j in 0..matrix.width - 1) {
+            row += matrix[i, j]
+            column += matrix[j, i]
+        }
+        if (row != column || row != factorial) return false
+        row = 0
+        column = 0
+
+    }
+    return true
+}
 
 /**
  * Средняя
