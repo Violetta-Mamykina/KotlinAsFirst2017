@@ -167,6 +167,9 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
     val factorial = factorial(matrix.width).toInt()
     for (i in 0..matrix.height - 1) {
         for (j in 0..matrix.width - 1) {
+            if (matrix[i, j] > matrix.width || matrix[j, i] > matrix.width) {
+                return false
+            }
             row *= matrix[i, j]
             column *= matrix[j, i]
         }
