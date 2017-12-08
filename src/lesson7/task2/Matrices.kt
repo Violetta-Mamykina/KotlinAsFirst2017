@@ -162,18 +162,17 @@ fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
  */
 fun isLatinSquare(matrix: Matrix<Int>): Boolean {
     if (matrix.height != matrix.width) return false
-    var row = 0
-    var column = 0
-    val factorial = if (matrix.width == 2) factorial(matrix.width).toInt() + 1
-    else factorial(matrix.width).toInt()
+    var row = 1
+    var column = 1
+    val factorial = factorial(matrix.width).toInt()
     for (i in 0..matrix.height - 1) {
         for (j in 0..matrix.width - 1) {
-            row += matrix[i, j]
-            column += matrix[j, i]
+            row *= matrix[i, j]
+            column *= matrix[j, i]
         }
         if (row != column || row != factorial) return false
-        row = 0
-        column = 0
+        row = 1
+        column = 1
 
     }
     return true

@@ -129,6 +129,7 @@ class Tests {
         assertFalse(isLatinSquare(createMatrix(3, 3, listOf(listOf(2, 3, 1), listOf(1, 2, 3), listOf(3, 1, 4)))))
         assertFalse(isLatinSquare(createMatrix(3, 3, listOf(listOf(2, 3, 1), listOf(1, 2, 3), listOf(1, 3, 2)))))
         assertFalse(isLatinSquare(createMatrix(3, 3, listOf(listOf(2, 3, 0), listOf(1, 2, 3), listOf(3, 1, 2)))))
+        assertTrue(isLatinSquare(createMatrix(4, 4, listOf(listOf(1, 2, 3, 4), listOf(2, 1, 4, 3), listOf(3, 4, 1, 2), listOf(4, 3, 2, 1)))))
     }
 
     @Test
