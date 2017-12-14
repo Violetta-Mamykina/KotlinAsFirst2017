@@ -93,7 +93,7 @@ class MatrixImpl<E>(override val height: Int, override val width: Int, e: E) : M
             }
             result.append("\t")
         }
-        return "$result"
+        return result.toString()
     }
 
     override fun hashCode(): Int {
