@@ -69,12 +69,12 @@ fun generateSpiral(height: Int, width: Int): Matrix<Int> {
     val area = height * width
     var value = 1
     while (value <= area) {
-        for (i in place..(width - place - 1)) {
+        for (i in place until (width - place)) {
             if (value <= area) {
                 result[place, i] = value++
             } else break
         }
-        for (i in (place + 1)..(height - place - 1)) {
+        for (i in (place + 1) until (height - place)) {
             if (value <= area) {
                 result[i, width - place - 1] = value++
             } else break
@@ -139,8 +139,8 @@ fun generateSnake(height: Int, width: Int): Matrix<Int> = TODO()
 fun <E> rotate(matrix: Matrix<E>): Matrix<E> {
     if (matrix.height != matrix.width) throw IllegalArgumentException()
     val result = createMatrix(matrix.height, matrix.width, matrix[0, 0])
-    for (i in 0..matrix.width - 1) {
-        for (j in 0..matrix.height - 1) {
+    for (i in 0 until matrix.width) {
+        for (j in 0 until matrix.height) {
             result[i, j] = matrix[matrix.width - j - 1, i]
         }
     }
@@ -165,8 +165,8 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
     var row = 1
     var column = 1
     val factorial = factorial(matrix.width).toInt()
-    for (i in 0..matrix.height - 1) {
-        for (j in 0..matrix.width - 1) {
+    for (i in 0 until matrix.height) {
+        for (j in 0 until matrix.width) {
             if (matrix[i, j] > matrix.width || matrix[j, i] > matrix.width) {
                 return false
             }
@@ -176,7 +176,6 @@ fun isLatinSquare(matrix: Matrix<Int>): Boolean {
         if (row != column || row != factorial) return false
         row = 1
         column = 1
-
     }
     return true
 }
