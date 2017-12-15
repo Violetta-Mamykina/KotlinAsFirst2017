@@ -156,7 +156,7 @@ class Line private constructor(val b: Double, val angle: Double) {
     fun crossPoint(other: Line): Point {
         var x = 0.0
         var y = 0.0
-        if (angle in Math.PI / 2 - 0.00001..Math.PI / 2 + 0.00001) {
+        if (angle in Math.PI / 2 - 0.0000001..Math.PI / 2 + 0.0000001) {
             y = -b * Math.sin(other.angle) / Math.cos(other.angle) + other.b / Math.cos(other.angle)
             return Point(-b, y)
         }
@@ -166,7 +166,11 @@ class Line private constructor(val b: Double, val angle: Double) {
         } else {
             x = ((other.b * Math.cos(angle) - b * Math.cos(other.angle)) /
                     (Math.sin(angle) * Math.cos(other.angle) - Math.sin(other.angle) * Math.cos(angle)))
-            y = x * Math.sin(angle) / Math.cos(angle) + b / Math.cos(angle)
+            if (angle - Math.PI / 2 <= other.angle - Math.PI / 2) {
+                y = x * Math.sin(angle) / Math.cos(angle) + b / Math.cos(angle)
+            } else if (angle - Math.PI / 2 > other.angle - Math.PI / 2) {
+                y = x * Math.sin(other.angle) / Math.cos(other.angle) + b / Math.cos(other.angle)
+            }
             return Point(x, y)
         }
     }
@@ -236,13 +240,7 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
-    val bisectorAB = bisectorByPoints(a, b)
-    val bisectorBC = bisectorByPoints(b, c)
-    val cross = bisectorAB.crossPoint(bisectorBC)
-    val radius = cross.distance(a)
-    return Circle(cross, radius)
-}
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
 
 /**
  * Очень сложная
