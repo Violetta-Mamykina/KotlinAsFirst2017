@@ -3,6 +3,7 @@
 package lesson5.task1
 
 import lesson4.task1.squares
+import java.util.concurrent.locks.Condition
 
 /**
  * Пример
@@ -297,4 +298,57 @@ fun fromRoman(roman: String): Int = TODO()
  * IllegalArgumentException должен бросаться даже если ошибочная команда не была достигнута в ходе выполнения.
  *
  */
-fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> = TODO()
+fun conveyor(commands: String, index: Int, number: Int, sum: Int, condition: Int): Int {
+    var i = index
+    var s = sum
+    while (i in 0 until commands.length && s != number) {
+        if (commands[i] == ']')
+            s--
+        if (commands[i] == '[')
+            s++
+        i += condition
+    }
+    return i
+}
+
+fun computeDeviceCells(cells: Int, commands: String, limit: Int): List<Int> {
+    var result = MutableList(cells, { 0 })
+    val TrueSymbol = listOf('+', '-', '[', ']', '<', '>', ' ')
+    var sum = 0
+    for (i in 0 until commands.length) {
+        if (commands[i] == ']' && sum == 0) throw IllegalArgumentException()
+        if (commands[i] == '[')
+            sum++
+        if (commands[i] == ']')
+            sum--
+        if (commands[i] !in TrueSymbol) throw IllegalArgumentException()
+    }
+    if (sum != 0) throw IllegalArgumentException()
+    var iterator = cells / 2
+    var step = 0
+    var index = 0
+    while (iterator in 0 until cells && index in 0 until commands.length && step < limit) {
+        step++
+        when (commands[index]) {
+            '+' -> result[iterator]++
+            '-' -> result[iterator]--
+            '[' -> {
+                if (result[iterator] == 0) {
+                    index++
+                    index = conveyor(commands, index, 0, 1, 1) - 1
+                }
+            }
+            ']' -> {
+                if (result[iterator] != 0) {
+                    index--
+                    index = conveyor(commands, index, 0, -1, -1) + 1
+                }
+            }
+            '>' -> iterator++
+            '<' -> iterator--
+        }
+        index++
+    }
+    if (iterator !in 0 until cells) throw IllegalArgumentException()
+    return result
+}
